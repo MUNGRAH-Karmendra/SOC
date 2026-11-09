@@ -1,0 +1,29 @@
+docker logs -f wazuh-dashboard
+
+# Créer les répertoires
+mkdir -p config/wazuh_indexer_ssl_certs
+mkdir -p config/wazuh_cluster
+mkdir -p config/wazuh_indexer
+mkdir -p config/wazuh_dashboard
+
+# Certificats SSL (à générer ou copier)
+touch config/wazuh_indexer_ssl_certs/root-ca.pem
+touch config/wazuh_indexer_ssl_certs/root-ca-manager.pem
+touch config/wazuh_indexer_ssl_certs/wazuh.manager.pem
+touch config/wazuh_indexer_ssl_certs/wazuh.manager-key.pem
+touch config/wazuh_indexer_ssl_certs/wazuh.indexer.pem
+touch config/wazuh_indexer_ssl_certs/wazuh.indexer-key.pem
+touch config/wazuh_indexer_ssl_certs/wazuh.dashboard.pem
+touch config/wazuh_indexer_ssl_certs/wazuh.dashboard-key.pem
+touch config/wazuh_indexer_ssl_certs/admin.pem
+touch config/wazuh_indexer_ssl_certs/admin-key.pem
+
+# Fichiers de config
+touch config/wazuh_cluster/wazuh_manager.conf
+touch config/wazuh_indexer/wazuh.indexer.yml
+touch config/wazuh_indexer/internal_users.yml
+touch config/wazuh_dashboard/opensearch_dashboards.yml
+touch config/wazuh_dashboard/wazuh.yml
+
+docker compose up -d
+docker compose -f generate-indexer-certs.yml run --rm generator
